@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import HomeScreen from './pages/Home'
+import DatasetProvider from './providers/DatasetProvider'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import ErrorPage from './pages/Error'
+
+const queryClient = new QueryClient()
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomeScreen />,
+    errorElement: <ErrorPage />,
+  },
+])
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <QueryClientProvider client={queryClient}>
+      <DatasetProvider>
+        <RouterProvider router={router} />
+      </DatasetProvider>
+    </QueryClientProvider>
+  )
 }
 
-export default App;
+export default App
